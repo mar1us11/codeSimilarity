@@ -49,9 +49,11 @@ from app.services.pipeline import FunctionArtifacts, PipelineResult, SimilarityP
 
 logger = get_logger(__name__)
 
-#: Below this many comparisons the process-pool's spawn overhead isn't worth it,
-#: so we stay sequential (also keeps small unit tests from spawning processes).
-_PARALLEL_MIN_TASKS = 4
+#: Parallelize as soon as there is more than one comparison to run. With a
+#: single task there is nothing to run alongside it, so a process pool would only
+#: add spawn overhead for zero speedup -- that lone case stays sequential (which
+#: is identical in result and faster). Everything else fans out across processes.
+_PARALLEL_MIN_TASKS = 2
 
 _K = TypeVar("_K", bound=Hashable)
 
