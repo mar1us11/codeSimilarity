@@ -26,3 +26,8 @@ dist/
 .idea/
 .vscode/
 *.log
+
+# AI assistant tooling
+.claude/
+CLAUDE.md
+AGENTS.md
