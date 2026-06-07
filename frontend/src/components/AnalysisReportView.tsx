@@ -109,7 +109,7 @@ export function AnalysisReportView({
         )}
 
         <div className="panel">
-          <h3>Student similarity — ranked highest to lowest</h3>
+          <h3>Student similarity, ranked highest to lowest</h3>
           {report.student_pairs.length === 0 ? (
             <p className="muted">No pairs to compare.</p>
           ) : (

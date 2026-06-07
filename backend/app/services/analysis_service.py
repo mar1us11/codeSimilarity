@@ -18,9 +18,12 @@ submissions, so the system never classifies code as "AI generated".
 
 from __future__ import annotations
 
+import os
+from collections.abc import Hashable
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import UTC, datetime
 from itertools import combinations
-from typing import cast
+from typing import TypeVar, cast
 
 from sqlalchemy.orm import Session
 
@@ -42,9 +45,34 @@ from app.schemas.analysis import (
 from app.services.ai_reference import AiReferenceError, AiReferenceService
 from app.services.artifacts import artifacts_from_function
 from app.services.parsing_service import ParsingService
-from app.services.pipeline import FunctionArtifacts, SimilarityPipeline
+from app.services.pipeline import FunctionArtifacts, PipelineResult, SimilarityPipeline
 
 logger = get_logger(__name__)
+
+#: Below this many comparisons the process-pool's spawn overhead isn't worth it,
+#: so we stay sequential (also keeps small unit tests from spawning processes).
+_PARALLEL_MIN_TASKS = 4
+
+_K = TypeVar("_K", bound=Hashable)
+
+
+def _compare_pair(
+    payload: tuple[
+        list[FunctionArtifacts],
+        list[FunctionArtifacts],
+        tuple[float, float, float],
+        float,
+    ],
+) -> PipelineResult:
+    """Top-level worker run in a separate process by :meth:`_compare_batch`.
+
+    Must be module-level (not a closure/method) so it is importable and
+    picklable under the ``spawn`` start method used on Windows/macOS. It rebuilds
+    a pipeline from plain settings, so nothing stateful crosses the boundary.
+    """
+    artifacts_a, artifacts_b, weights, threshold = payload
+    pipeline = SimilarityPipeline(weights=weights, match_threshold=threshold)
+    return pipeline.compare(artifacts_a, artifacts_b)
 
 
 class AnalysisError(RuntimeError):
@@ -140,15 +168,54 @@ class AnalysisService:
     def _artifacts_for(submission: Submission) -> list[FunctionArtifacts]:
         return [artifacts_from_function(fn) for fn in submission.functions]
 
+    # -- parallelizable comparison dispatch ----------------------------------
+    def _compare_batch(
+        self,
+        tasks: list[tuple[_K, list[FunctionArtifacts], list[FunctionArtifacts]]],
+    ) -> dict[_K, PipelineResult]:
+        """Run many independent pairwise comparisons, keyed for reassembly.
+
+        Identical results regardless of how it runs; the process pool only
+        shortens wall-clock time. Any pool/pickle/spawn failure degrades to the
+        sequential path, so the worst case is "as slow as before", never wrong.
+        """
+        if not self._settings.analysis_parallel or len(tasks) < _PARALLEL_MIN_TASKS:
+            return {key: self._pipeline.compare(a, b) for key, a, b in tasks}
+
+        weights = self._settings.fusion_weights
+        threshold = self._settings.match_threshold
+        workers = max(1, min(len(tasks), os.cpu_count() or 1))
+        try:
+            results: dict[_K, PipelineResult] = {}
+            with ProcessPoolExecutor(max_workers=workers) as executor:
+                futures = {
+                    executor.submit(_compare_pair, (a, b, weights, threshold)): key
+                    for key, a, b in tasks
+                }
+                for future in as_completed(futures):
+                    results[futures[future]] = future.result()
+            return results
+        except Exception as exc:  # noqa: BLE001 - any pool/pickle/spawn failure
+            logger.warning(
+                "Parallel comparison failed (%s); falling back to sequential.", exc
+            )
+            return {key: self._pipeline.compare(a, b) for key, a, b in tasks}
+
     # -- student-vs-student --------------------------------------------------
     def _compare_students(
         self,
         submissions: list[Submission],
         artifacts: dict[int, list[FunctionArtifacts]],
     ) -> list[StudentPairResult]:
+        pair_meta = list(combinations(submissions, 2))
+        tasks: list[
+            tuple[tuple[int, int], list[FunctionArtifacts], list[FunctionArtifacts]]
+        ] = [((a.id, b.id), artifacts[a.id], artifacts[b.id]) for a, b in pair_meta]
+        computed = self._compare_batch(tasks)
+
         pairs: list[StudentPairResult] = []
-        for a, b in combinations(submissions, 2):
-            result = self._pipeline.compare(artifacts[a.id], artifacts[b.id])
+        for a, b in pair_meta:
+            result = computed[(a.id, b.id)]
             pairs.append(
                 StudentPairResult(
                     submission_a_id=a.id,
@@ -248,10 +315,19 @@ class AnalysisService:
                 AiReferenceSolution(label=ref.label, source_code=ref.source_code)
             )
 
+        ref_tasks: list[
+            tuple[tuple[int, str], list[FunctionArtifacts], list[FunctionArtifacts]]
+        ] = [
+            ((sub.id, label), student_artifacts[sub.id], ref_arts)
+            for sub in submissions
+            for label, ref_arts in reference_artifacts
+        ]
+        computed = self._compare_batch(ref_tasks)
+
         results: list[ReferenceSimilarityResult] = []
         for sub in submissions:
-            for label, ref_arts in reference_artifacts:
-                result = self._pipeline.compare(student_artifacts[sub.id], ref_arts)
+            for label, _ref_arts in reference_artifacts:
+                result = computed[(sub.id, label)]
                 results.append(
                     ReferenceSimilarityResult(
                         submission_id=sub.id,

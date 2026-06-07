@@ -52,6 +52,10 @@ class Settings(BaseSettings):
     #: Minimum fused overall similarity for two submissions to be linked in the
     #: suspicion graph (DFS/BFS clustering of likely-collaborating students).
     cluster_threshold: float = Field(default=0.75, ge=0.0, le=1.0)
+    #: Run the (independent) pairwise comparisons across processes. Identical
+    #: results either way; this only affects wall-clock time. Kill switch:
+    #: set CODEGUARD_ANALYSIS_PARALLEL=false to force the sequential path.
+    analysis_parallel: bool = Field(default=True)
 
     # --- AI reference solutions (OpenAI) -----------------------------------
     # The API key is read from the *unprefixed* OPENAI_API_KEY environment

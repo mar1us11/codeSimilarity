@@ -27,7 +27,7 @@ export function ComparisonPanel({
           <h2>
             Pair detail
             {subjectA && subjectB ? (
-              <span className="muted"> — {subjectA} vs {subjectB}</span>
+              <span className="muted">: {subjectA} vs {subjectB}</span>
             ) : null}
           </h2>
           <button type="button" className="secondary" onClick={onClose}>

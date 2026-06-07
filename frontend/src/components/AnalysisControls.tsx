@@ -55,7 +55,7 @@ export function AnalysisControls({
       </label>
       {!aiAvailable && (
         <p className="muted note">
-          AI references are unavailable — set <code>OPENAI_API_KEY</code> in the backend to
+          AI references are unavailable. Set <code>OPENAI_API_KEY</code> in the backend to
           enable this.
         </p>
       )}

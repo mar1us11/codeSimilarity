@@ -64,7 +64,7 @@ export interface ComparisonRequest {
   readonly force?: boolean;
 }
 
-/* --- Cohort analysis ----------------------------------------------------- */
+//Cohort analysis
 
 export interface AnalysisCapabilities {
   readonly ai_reference_available: boolean;
@@ -139,7 +139,7 @@ export interface AnalysisReport {
   readonly warnings: readonly string[];
 }
 
-/* --- Saved score sets ("labs") ------------------------------------------- */
+//Saved score sets ("labs")
 
 export interface SavedLabSummary {
   readonly id: number;

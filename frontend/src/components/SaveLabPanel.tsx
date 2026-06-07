@@ -36,7 +36,7 @@ export function SaveLabPanel({ report }: SaveLabPanelProps): JSX.Element {
       setPassword("");
     } catch (err) {
       if (err instanceof ApiError && err.status === 409) {
-        setError("That name is already taken — choose a different lab name.");
+        setError("That name is already taken. Choose a different lab name.");
       } else {
         setError(err instanceof ApiError ? err.message : "Failed to save scores");
       }
@@ -49,7 +49,7 @@ export function SaveLabPanel({ report }: SaveLabPanelProps): JSX.Element {
     <details className="panel save-lab">
       <summary>
         <span className="save-lab__title">Save these scores behind a password</span>
-        <span className="muted"> — optional</span>
+        <span className="muted"> (optional)</span>
       </summary>
       <p className="muted note">
         Stores this exact ranking so you can revisit it later without re-running the analysis.
@@ -62,7 +62,7 @@ export function SaveLabPanel({ report }: SaveLabPanelProps): JSX.Element {
           <input
             type="text"
             value={label}
-            placeholder="e.g. Lab 3 — Week 12"
+            placeholder="e.g. Lab 3, Week 12"
             onChange={(e) => setLabel(e.target.value)}
           />
         </label>

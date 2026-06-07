@@ -201,7 +201,7 @@ export function SubmissionForm({ onCreated }: SubmissionFormProps): JSX.Element 
         </button>
       </div>
       <p className="muted note">
-        Use <strong>one or the other</strong> — upload <code>.c</code>/<code>.h</code> file(s),{" "}
+        Use <strong>one or the other</strong>: upload <code>.c</code>/<code>.h</code> file(s),{" "}
         or paste a single source by hand.
       </p>
 
@@ -250,7 +250,7 @@ export function SubmissionForm({ onCreated }: SubmissionFormProps): JSX.Element 
             </span>
             <strong>{stagedFiles.length > 0 ? "Choose different files" : "Drop .c / .h files here"}</strong>
             <span className="dropzone__hint">
-              or click to browse — drop several files to add one student per filename
+              or click to browse. Drop several files to add one student per filename
             </span>
             <input
               ref={fileInput}

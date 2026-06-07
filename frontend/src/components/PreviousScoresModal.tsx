@@ -10,7 +10,7 @@ interface PreviousScoresModalProps {
 
 /**
  * Reopen a saved score set by typing its name + password. There is no browsable
- * list — you can only open a lab you already know the name and password for, so
+ * list; you can only open a lab you already know the name and password for, so
  * one person's saved scores stay invisible to everyone else. The unlocked
  * report is rendered read-only (row drill-down is disabled because the original
  * submissions may no longer exist).
@@ -87,7 +87,7 @@ export function PreviousScoresModal({ onClose }: PreviousScoresModalProps): JSX.
                   type="text"
                   value={name}
                   autoFocus
-                  placeholder="e.g. Lab 3 — Group 2"
+                  placeholder="e.g. Lab 3, Group 2"
                   onChange={(e) => setName(e.target.value)}
                 />
               </label>

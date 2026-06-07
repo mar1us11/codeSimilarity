@@ -39,7 +39,7 @@ export function PipelineOverview({ submissionCount }: PipelineOverviewProps): JS
       <h2>How CodeGuard scores a cohort</h2>
       <p className="muted">
         Add every student submission on the left, then run the analysis below to compare{" "}
-        <em>every</em> pair structurally — not by text. Each track below runs on every comparison
+        <em>every</em> pair structurally, not by text. Each track below runs on every comparison
         and is fused into one explainable score.
       </p>
 
