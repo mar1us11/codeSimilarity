@@ -64,7 +64,7 @@ class StructuralNormalizer:
     def __init__(self, parser: CParser | None = None) -> None:
         self._parser = parser or CParser()
 
-    # -- public API ----------------------------------------------------------
+    # public API
     def normalize_source(self, source: str) -> list[NormalizedFunction]:
         """Parse and normalize every top-level function in ``source``."""
         source_bytes = source.encode("utf-8")
@@ -86,7 +86,7 @@ class StructuralNormalizer:
             index += 1
         return functions
 
-    # -- traversal helpers ---------------------------------------------------
+    # traversal helpers
     def _iter_function_definitions(self, root: Node) -> Iterator[Node]:
         """Yield all ``function_definition`` nodes, including nested ones."""
         stack = [root]
@@ -129,7 +129,7 @@ class StructuralNormalizer:
                 return node_type, operator.type
         return node_type, None
 
-    # -- semantic extraction -------------------------------------------------
+    # semantic extraction
     def _function_name(self, definition: Node, source_bytes: bytes) -> str:
         """Best-effort extraction of the declared function name."""
         declarator = definition.child_by_field_name("declarator")

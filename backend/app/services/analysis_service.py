@@ -149,7 +149,7 @@ class AnalysisService:
             warnings=warnings,
         )
 
-    # -- loading -------------------------------------------------------------
+    # loading
     def _load_submissions(
         self, ids: list[int] | None, workspace: str
     ) -> list[Submission]:
@@ -170,7 +170,7 @@ class AnalysisService:
     def _artifacts_for(submission: Submission) -> list[FunctionArtifacts]:
         return [artifacts_from_function(fn) for fn in submission.functions]
 
-    # -- parallelizable comparison dispatch ----------------------------------
+    # parallelizable comparison dispatch
     def _compare_batch(
         self,
         tasks: list[tuple[_K, list[FunctionArtifacts], list[FunctionArtifacts]]],
@@ -203,7 +203,7 @@ class AnalysisService:
             )
             return {key: self._pipeline.compare(a, b) for key, a, b in tasks}
 
-    # -- student-vs-student --------------------------------------------------
+    # student-vs-student
     def _compare_students(
         self,
         submissions: list[Submission],
@@ -234,7 +234,7 @@ class AnalysisService:
         pairs.sort(key=lambda p: p.overall_score, reverse=True)
         return pairs
 
-    # -- clustering (DFS/BFS connected components) ---------------------------
+    # clustering (DFS/BFS connected components)
     def _build_clusters(
         self, pairs: list[StudentPairResult], names: dict[int, str]
     ) -> list[SuspiciousCluster]:
@@ -279,7 +279,7 @@ class AnalysisService:
         clusters.sort(key=lambda c: (c.size, c.average_similarity), reverse=True)
         return clusters
 
-    # -- student-vs-AI-reference ---------------------------------------------
+    # student-vs-AI-reference
     def _compare_references(
         self,
         request: AnalysisRequest,

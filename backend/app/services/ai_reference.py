@@ -102,7 +102,7 @@ class AiReferenceService:
         logger.info("Generated %d/%d AI reference solution(s).", len(references), bounded)
         return references
 
-    # -- internals -----------------------------------------------------------
+    # internals
     def _bounded_count(self, count: int) -> int:
         if count < 1:
             return self._settings.ai_reference_default_count

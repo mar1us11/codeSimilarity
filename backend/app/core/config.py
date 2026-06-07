@@ -24,7 +24,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # --- Infrastructure -----------------------------------------------------
+    # Infrastructure
     database_url: PostgresDsn = Field(
         default=PostgresDsn(
             "postgresql+psycopg://codeguard:codeguard@localhost:5432/codeguard"
@@ -38,17 +38,17 @@ class Settings(BaseSettings):
     )
     log_level: str = Field(default="INFO")
 
-    # --- Winnowing fingerprinting ------------------------------------------
+    # Winnowing fingerprinting
     winnow_k: int = Field(default=5, ge=1, description="k-gram length for winnowing.")
     winnow_window: int = Field(default=4, ge=1, description="Winnowing window size w.")
 
-    # --- Pipeline fusion ----------------------------------------------------
+    # Pipeline fusion
     weight_ted: float = Field(default=0.50, ge=0.0, le=1.0)
     weight_winnow: float = Field(default=0.35, ge=0.0, le=1.0)
     weight_callgraph: float = Field(default=0.15, ge=0.0, le=1.0)
     match_threshold: float = Field(default=0.60, ge=0.0, le=1.0)
 
-    # --- Cohort analysis ----------------------------------------------------
+    # Cohort analysis
     #: Minimum fused overall similarity for two submissions to be linked in the
     #: suspicion graph (DFS/BFS clustering of likely-collaborating students).
     cluster_threshold: float = Field(default=0.75, ge=0.0, le=1.0)
@@ -57,7 +57,7 @@ class Settings(BaseSettings):
     #: set CODEGUARD_ANALYSIS_PARALLEL=false to force the sequential path.
     analysis_parallel: bool = Field(default=True)
 
-    # --- AI reference solutions (OpenAI) -----------------------------------
+    # AI reference solutions (OpenAI)
     # The API key is read from the *unprefixed* OPENAI_API_KEY environment
     # variable (the OpenAI SDK's own convention); never hard-code it.
     openai_api_key: str | None = Field(

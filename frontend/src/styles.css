@@ -76,7 +76,7 @@ body {
   color: #fff;
 }
 
-/* Scrollbars ------------------------------------------------------------- */
+/* Scrollbars */
 * {
   scrollbar-width: thin;
   scrollbar-color: var(--surface-3) transparent;
@@ -102,7 +102,7 @@ body {
   padding: 2rem 1.75rem 4rem;
 }
 
-/* ---- Header ------------------------------------------------------------- */
+/* Header */
 .app__header {
   position: sticky;
   top: 0;
@@ -200,7 +200,7 @@ body {
   }
 }
 
-/* ---- Layout ------------------------------------------------------------- */
+/* Layout */
 .layout {
   display: grid;
   grid-template-columns: minmax(320px, 390px) 1fr;
@@ -243,7 +243,7 @@ body {
   }
 }
 
-/* ---- Panels (glass cards) ---------------------------------------------- */
+/* Panels (glass cards) */
 .panel {
   position: relative;
   background: var(--surface);
@@ -303,7 +303,7 @@ body {
   content: none;
 }
 
-/* ---- Forms -------------------------------------------------------------- */
+/* Forms */
 label {
   display: block;
   margin-bottom: 0.85rem;
@@ -349,7 +349,7 @@ textarea {
   tab-size: 2;
 }
 
-/* ---- Buttons ------------------------------------------------------------ */
+/* Buttons */
 button {
   position: relative;
   background: var(--accent-grad);
@@ -403,7 +403,7 @@ button.secondary:hover:not(:disabled) {
   margin-bottom: 1rem;
 }
 
-/* ---- Mode switch (upload vs paste) ------------------------------------- */
+/* Mode switch (upload vs paste) */
 .mode-switch {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -440,7 +440,7 @@ button.secondary:hover:not(:disabled) {
   cursor: not-allowed;
 }
 
-/* ---- Dropzone ----------------------------------------------------------- */
+/* Dropzone */
 .dropzone {
   display: flex;
   flex-direction: column;
@@ -525,7 +525,7 @@ button.secondary:hover:not(:disabled) {
   text-decoration: underline;
 }
 
-/* ---- Text helpers ------------------------------------------------------- */
+/* Text helpers */
 .muted {
   color: var(--muted);
   font-size: 0.85rem;
@@ -564,7 +564,7 @@ button.secondary:hover:not(:disabled) {
   opacity: 0.85;
 }
 
-/* ---- Toggle / AI options ------------------------------------------------ */
+/* Toggle / AI options */
 .toggle {
   display: flex;
   align-items: center;
@@ -618,7 +618,7 @@ code {
   border-top: 1px solid var(--border);
 }
 
-/* ---- Tables ------------------------------------------------------------- */
+/* Tables */
 .submission-table,
 .match-table {
   width: 100%;
@@ -707,7 +707,7 @@ code {
   color: #d8d2ff;
 }
 
-/* ---- Header actions / previous scores ----------------------------------- */
+/* Header actions / previous scores */
 .app__actions {
   display: flex;
   align-items: center;
@@ -724,7 +724,7 @@ code {
   }
 }
 
-/* ---- Saved-lab list (previous scores) ----------------------------------- */
+/* Saved-lab list (previous scores) */
 .lab-list {
   list-style: none;
   margin: 0.6rem 0 0;
@@ -789,7 +789,7 @@ code {
   gap: 0.5rem;
 }
 
-/* ---- Save-lab panel ----------------------------------------------------- */
+/* Save-lab panel */
 .save-lab > summary {
   cursor: pointer;
   font-weight: 600;
@@ -824,7 +824,7 @@ code {
   }
 }
 
-/* ---- Pipeline overview -------------------------------------------------- */
+/* Pipeline overview */
 .pipeline__count {
   margin: 1rem 0 0;
   padding-top: 1rem;
@@ -922,7 +922,7 @@ code {
   }
 }
 
-/* ---- Rank badge --------------------------------------------------------- */
+/* Rank badge */
 .rank-col {
   width: 44px;
   text-align: center;
@@ -951,7 +951,7 @@ code {
   color: #ffdc97;
 }
 
-/* ---- Stats -------------------------------------------------------------- */
+/* Stats */
 .stat-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
@@ -1009,7 +1009,7 @@ code {
   margin-top: 0.35rem;
 }
 
-/* ---- Score cell --------------------------------------------------------- */
+/* Score cell */
 .score-cell {
   display: flex;
   align-items: center;
@@ -1041,7 +1041,7 @@ code {
   font-weight: 700;
 }
 
-/* ---- Clusters ----------------------------------------------------------- */
+/* Clusters */
 .cluster-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -1081,7 +1081,7 @@ code {
   margin-top: 0.15rem;
 }
 
-/* ---- Badges ------------------------------------------------------------- */
+/* Badges */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -1109,7 +1109,7 @@ code {
   border-color: rgba(74, 222, 128, 0.38);
 }
 
-/* ---- Overall score banner ---------------------------------------------- */
+/* Overall score banner */
 .overall {
   display: flex;
   align-items: center;
@@ -1135,7 +1135,7 @@ code {
   margin-bottom: 1.2rem;
 }
 
-/* ---- Score bars --------------------------------------------------------- */
+/* Score bars */
 .score-bar {
   margin-bottom: 0.8rem;
 }
@@ -1160,7 +1160,7 @@ code {
   transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ---- Loading / spinner -------------------------------------------------- */
+/* Loading / spinner */
 .loading {
   display: flex;
   align-items: center;
@@ -1184,7 +1184,7 @@ code {
   }
 }
 
-/* ---- Modal -------------------------------------------------------------- */
+/* Modal */
 .modal {
   position: fixed;
   inset: 0;
@@ -1235,7 +1235,7 @@ code {
   tab-size: 2;
 }
 
-/* ---- Motion preferences ------------------------------------------------- */
+/* Motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -30,7 +30,7 @@ class ASTNode:
     value: str | None = None
     children: list[ASTNode] = field(default_factory=list)
 
-    # -- structural helpers --------------------------------------------------
+    # structural helpers
     @property
     def signature(self) -> str:
         """Comparison key used by Tree Edit Distance."""
@@ -61,7 +61,7 @@ class ASTNode:
         """
         return [node.signature for node in self.iter_preorder()]
 
-    # -- serialization -------------------------------------------------------
+    # serialization
     def to_dict(self) -> dict[str, Any]:
         """Serialize to a JSON-compatible dict."""
         out: dict[str, Any] = {"label": self.label}

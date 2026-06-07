@@ -126,7 +126,7 @@ class SimilarityPipeline:
             matches=matches,
         )
 
-    # -- internals -----------------------------------------------------------
+    # internals
     def _similarity_matrices(
         self,
         a: list[FunctionArtifacts],

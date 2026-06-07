@@ -49,7 +49,7 @@ class CallGraph:
                         edges.append(edge)
         return cls(nodes=tuple(sorted(names)), edges=tuple(edges))
 
-    # -- structural features -------------------------------------------------
+    # structural features
     def degree_signature(self) -> Counter[tuple[int, int]]:
         """Multiset of ``(in_degree, out_degree)`` over all nodes."""
         in_deg: dict[str, int] = {n: 0 for n in self.nodes}
